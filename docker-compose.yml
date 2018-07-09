@@ -1,0 +1,17 @@
+version: '3'
+services:
+  web:
+    build: ./
+  mysql:
+    image: mysql:5.7
+    environment:
+      - "MYSQL_DATABASE=flask"
+      - "MYSQL_USER=toni"
+      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_ROOT_PASSWORD=secret"
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports:
+      - "13306:3306"
+volumes:
+  dbdata:
