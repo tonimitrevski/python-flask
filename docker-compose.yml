@@ -2,16 +2,26 @@ version: '3'
 services:
   web:
     build: ./
-  mysql:
-    image: mysql:5.7
+    networks:
+      - flask
+  db:
+    image: postgres
+    restart: always
     environment:
-      - "MYSQL_DATABASE=flask"
-      - "MYSQL_USER=toni"
-      - "MYSQL_PASSWORD=secret"
-      - "MYSQL_ROOT_PASSWORD=secret"
+      POSTGRES_PASSWORD: example
     volumes:
-      - dbdata:/var/lib/mysql
+       - postgredb:/var/lib/postgresql/data
+    networks:
+      - flask
+  adminer:
+    image: adminer
+    restart: always
     ports:
-      - "13306:3306"
+      - 8080:8080
+    networks:
+      - flask
+networks:
+  flask:
+    driver: bridge
 volumes:
-  dbdata:
+  postgredb:
